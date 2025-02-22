@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="icon" type="image/x-icon" href={{ url_for('static', filename='materials/robot-solid.svg') }}>
+      <link rel="stylesheet" href="{{ url_for('static', filename='styleDocs.css') }}" />
+      <link
+         rel="stylesheet"
+         href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+         />
+      <link
+         rel="stylesheet"
+         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+         integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+         crossorigin="anonymous"
+         referrerpolicy="no-referrer"
+         />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link
+         href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap"
+         rel="stylesheet"
+         />
+      <title>Eliot Bot - PDF Interpreter</title>
+      <style>
+         /* highly recommended to keep this in-line to ensure it beats the code-race. */
+         #docs-content * { 
+         opacity: 0;
+         transform: translateY(20px);
+         transition: opacity 1.5s ease-out, transform 0.3s ease-out;
+         }
+         #docs-content *.animate-in { 
+         opacity: 1;
+         transform: translateY(0);
+         }
+      </style>
+   </head>
+   <body>
+      <div id="sidebar-container">
+         <div class="sideBar">
+            <div class="sideBarContent">
+               <div class="icon">&#9776;</div>
+               <div><a class="nav-link" href="{{ url_for('index') }}">Eliot</a></div>
+               <div><a class="nav-link" href="{{ url_for('docs') }}">Documentation</a></div>
+               <div><a class="nav-link" href="{{ url_for('credits') }}">Creditation</a></div>
+            </div>
+         </div>
+      </div>
+      <div class="container" id="main-container-parent">
+         <div id="main-container">
+            <div id="docs-content">
+               <h1 class="docs-title">Eliot - A PDF Interpreting Tool</h1>
+               <p class="docs-intro">Welcome to the documents for Eliot! This tool allows you to extract information from PDF pages using the power of AI, and all locally (on-device)! Summarize or give Eliot special instructions for your needs!</p>
+               <h2 class="docs-section-title">Choosing the Right LLM</h2>
+               <p class="docs-paragraph">Eliot offers two types of AI tools:  <strong>Summarization Only (seq2seq)</strong> and <strong>Reasoning (casual)</strong> models.  Understanding the differences is crucial for getting the best results.</p>
+               <h3 class="docs-subsection-title">Summarization Only Models (e.g., FLAN-T5)</h3>
+               <ul class="docs-list">
+                  <li><strong>Best for:</strong>  Eliot's Summarization Only model's excel at transforming long documents into digestible bites.</li>
+                  <li><strong>How they work:</strong> Eliot takes the entire input sequence (your PDF text) and generates an output sequence in one go.  Think of it like reading the whole document and then writing a summary.</li>
+                  <li><strong>Prompting:</strong>  You don't need to provide custom prompts. Eliot's Summarization Only model's use <strong>pre-defined prompts</strong> optimized for the best output scenario.</li>
+                  <li><strong>Example Use Case:</strong> You want a concise summary of a research paper.</li>
+               </ul>
+               <h3 class="docs-subsection-title">Reasoning Models (e.g., DeepSeek R1)</h3>
+               <ul class="docs-list">
+                  <li><strong>Best for:</strong>  More open-ended, creative text generation, and scenarios where you want more control over the output style and content.</li>
+                  <li><strong>How they work:</strong> Eliot's Reasoning Models will speak it's thoughts out loud to you, as it processes it's conclusive findings.</li>
+                  <li><strong>Prompting:</strong>  You should provide <strong>custom prompts</strong> to guide the Reasoning Models.  You must also select a criteria (summary, analysis, opinion) to further refine Eliot's skills to your instruction.</li>
+                  <li><strong>Example Use Case:</strong> You want a more specific summary (ex. opinion) on a research paper's findings, knowing Eliot will provide a less academic-level (more casual) output than Summarization Only models.</li>
+               </ul>
+               <p class="docs-paragraph"><strong>Key Differences Summarized:</strong></p>
+               <table class="docs-table">
+                  <thead>
+                     <tr>
+                        <th class="docs-table-header">Features</th>
+                        <th class="docs-table-header">Summarization</th>
+                        <th class="docs-table-header">Reasoning</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td class="docs-table-cell">Task Type</td>
+                        <td class="docs-table-cell">Specific, more accurate</td>
+                        <td class="docs-table-cell">Open-ended, creative</td>
+                     </tr>
+                     <tr>
+                        <td class="docs-table-cell">Prompting</td>
+                        <td class="docs-table-cell">Pre-defined prompts</td>
+                        <td class="docs-table-cell">Custom prompts supported (and often recommended)</td>
+                     </tr>
+                     <tr>
+                        <td class="docs-table-cell">Output Style</td>
+                        <td class="docs-table-cell">Only summarizes given text</td>
+                        <td class="docs-table-cell">More flexible, controllable</td>
+                     </tr>
+                  </tbody>
+               </table>
+               <h2 class="docs-section-title">Computer Requirements</h2>
+               <p class="docs-paragraph">Eliot's performance <strong>heavily relies on your computer's hardware</strong>, especially the amount of available RAM and the type of processing unit (CPU or GPU).</p>
+               <ul class="docs-list">
+                  <li><strong>RAM:</strong>  Larger models require more RAM.  Smaller models (e.g., 336M parameters/below) might run on systems with 8GB of RAM, but larger models (e.g., 7B parameters) will likely require 16GB or more, especially for longer documents.  If you run out of RAM, Eliot or your PC may crash or become extremely slow.</li>
+                  <li><strong>CPU vs. GPU:</strong>  While Eliot can run on a CPU, it will be *significantly* faster on a computer with a dedicated NVIDIA GPU (Graphics Processing Unit) with sufficient VRAM (Video RAM).  GPUs are designed for parallel processing, which is essential for LLM ("AI") computations.  If you use a GPU, ensure you have the correct NVIDIA drivers and CUDA toolkit installed.
+                     Eliot will automatically detect your GPU, and attempt to utilize it, if correctly available.
+                  </li>
+                  <li><strong>Disk Space:</strong>  Ensure you have enough disk space to store both the PDF files and the downloaded LLM models (e.g, Reasoning Models). The models can range in size from hundreds of megabytes to several gigabytes. They will automatically download when you send in your PDF. First run will always take the longest, due to this.</li>
+               </ul>
+               <h2 class="docs-section-title">Potential Issues and Troubleshooting</h2>
+               <ul class="docs-list">
+                  <li><strong>Slow Processing:</strong>  Large PDFs and large models will take time to process.  Be patient!  If it's too slow, try a smaller model or a shorter document.  Splitting text ("chunking") is used to handle long documents, but processing many chunks still takes time.</li>
+                  <li><strong>Out of Memory Errors:</strong>  If you see errors related to memory, you likely need more RAM or a smaller model.  Close other applications to free up memory.</li>
+                  <li><strong>Model Loading Errors:</strong> Ensure you have an active internet connection when Eliot first loads a model. Eliot needs to download the model files.  Double-check that you have the `transformers` library installed correctly.</li>
+                  <li><strong>Incorrect Page References:</strong> Eliot attempts to validate page references in the output.  If you see "VALIDATION ISSUES," it means the model generated a reference to a page that doesn't exist in the original document.  This is a sign of a potential hallucination (see below).</li>
+                  <li><strong>Incomplete Output:</strong> If the output seems cut off, it might be due to Eliot reaching its maximum output length limit. This is critical to reduce Eliot's hallunications. The parameters for `max_length` are set for each model.</li>
+                  <li><strong>Freezing:</strong> If your computer freezes during the extraction, you should choose a smaller model, that is not a Reasoning Model. If the smallest model still freezes or hangs, Eliot is not recommended for your PC's hardware.</li>
+                  <li><strong>Inconsistencies:</strong> If you find any differences between your selected prompt, and your output, try giving very specific and concise instructions. (e.g, With the "Analyze" criteria chosen prompt: "Based on the text provided; Did the text accurately describe what a CPU's role is in a PC? Did it go over CPU cores? Did it go over CPU threads? What is your analysis?")
+               </ul>
+               <h2 class="docs-section-title">Important Warning: AI and Accuracy</h2>
+               <p class="docs-paragraph"><strong>(Eliot) Large Language Models are experimental technology.</strong>  The output generated by Eliot should be treated with caution and critically evaluated.  Eliot (and other LLMs) can:</p>
+               <ul class="docs-list">
+                  <li><strong>Hallucinate:</strong>  Generate information that is factually incorrect or not present in the original document.  Always verify the output against the source PDF.</li>
+                  <li><strong>Be Biased:</strong>  Reflect biases present in the data Eliot's models were trained on.  Be aware of potential biases and consider multiple sources of information.</li>
+                  <li><strong>Misinterpret Information:</strong>  Fail to understand the nuances of language or context, leading to inaccurate summaries or analyses.</li>
+                  <li><strong>Not be up-to-date:</strong> Have a limited knowledge cut-off date. They won't know about events that occurred after their training data was collected.</li>
+               </ul>
+               <p class="docs-paragraph"><strong>Always double-check the output and do not rely solely on Eliot's generated text for ANY decisions.</strong></p>
+            </div>
+         </div>
+      </div>
+      <div>
+      <script>
+         const sidebar = document.getElementById('sidebar-container').querySelector('.sideBar');
+         const mainContainer = document.getElementById('main-container');
+         
+         const closedMargin = '80px';  
+         const openMargin = '270px';
+         
+         sidebar.addEventListener('mouseover', () => {
+             sidebar.classList.add('open');
+             mainContainer.style.marginLeft = openMargin; 
+         });
+         
+         sidebar.addEventListener('mouseout', () => {
+             sidebar.classList.remove('open');
+             mainContainer.style.marginLeft = closedMargin; 
+         });
+         
+         // --- Animation code below ---
+         
+         const elementsToAnimate = document.querySelectorAll('#docs-content *'); 
+         
+         function checkSlide() {
+             elementsToAnimate.forEach(element => {
+                 const slideInAt = (window.scrollY + window.innerHeight) - element.offsetHeight / 2;
+                 const elementBottom = element.offsetTop + element.offsetHeight;
+                 const isHalfShown = slideInAt > element.offsetTop;
+                 const isNotScrolledPast = window.scrollY < elementBottom;
+         
+                 if (isHalfShown && isNotScrolledPast) {
+                     element.classList.add('animate-in');
+                 }
+             });
+         }
+         
+         window.addEventListener('scroll', checkSlide);
+         checkSlide();
+      </script>
+   </body>
+</html>

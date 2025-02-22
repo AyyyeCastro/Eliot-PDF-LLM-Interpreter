@@ -1,0 +1,6 @@
+fitz==0.0.1.dev2
+PyMuPDF>=1.18.0
+torch>=2.0.0
+transformers>=4.34.0
+flask>=2.3.0
+werkzeug>=2.3.0

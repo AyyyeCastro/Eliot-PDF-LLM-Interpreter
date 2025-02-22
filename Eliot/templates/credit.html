@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="icon" type="image/x-icon" href={{ url_for('static', filename='materials/robot-solid.svg') }}>
+      <link rel="stylesheet" href="{{ url_for('static', filename='styleDocs.css') }}" />
+      <link
+         rel="stylesheet"
+         href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+         />
+      <link
+         rel="stylesheet"
+         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+         integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+         crossorigin="anonymous"
+         referrerpolicy="no-referrer"
+         />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link
+         href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap"
+         rel="stylesheet"
+         />
+      <title>Eliot Bot - PDF Interpreter</title>
+      <style>
+         /* highly recommended to keep this in-line to ensure it beats the code-race. */
+         #docs-content * { 
+         opacity: 0;
+         transform: translateY(20px);
+         transition: opacity 1.5s ease-out, transform 0.3s ease-out;
+         }
+         #docs-content *.animate-in { 
+         opacity: 1;
+         transform: translateY(0);
+         }
+      </style>
+   </head>
+   <body>
+      <div id="sidebar-container">
+         <div class="sideBar">
+            <div class="sideBarContent">
+               <div class="icon">&#9776;</div>
+               <div><a class="nav-link" href="{{ url_for('index') }}">Eliot</a></div>
+               <div><a class="nav-link" href="{{ url_for('docs') }}">Documentation</a></div>
+               <div><a class="nav-link" href="{{ url_for('credits') }}">Creditation</a></div>
+            </div>
+         </div>
+      </div>
+      <div class="container" id="main-container-parent">
+      <div id="main-container">
+      <div id="docs-content">
+         <h1 class="docs-title">Eliot Exists thanks to them!</h1>
+         <p class="docs-intro">
+            Eliot leverages the capabilities of several powerful language models from Hugging Face, including the <strong>FLAN-T5</strong> family (small, base, large, xl, xxl), <strong>BART</strong> (facebook/bart-large-cnn, lidiya/bart-large-xsum-samsum), <strong>DistilBART</strong> (sshleifer/distilbart-cnn-12-6) for summarization tasks, and <strong>DeepSeek-R1-Distill-Qwen-1.5B</strong> and the <strong>Qwen 1.5 series</strong> (Qwen/Qwen2.5-14B) for more open-ended reasoning and analysis.
+         </p>
+         <p class="docs-intro">
+            Eliot is built using a combination of technologies:
+         <ul>
+            <li><strong>Python:</strong>  The core logic and backend of Eliot is written in Python. This includes the PDF processing (using PyMuPDF/fitz), interaction with the Hugging Face Transformers library and prompt engineering, and the overall application flow.</li>
+            <li><strong>Flask:</strong>  Flask is a lightweight Python web framework used to create the web application interface.  It handles requests from the user (like uploading a PDF and selecting a model), processes them using the Python backend, and returns the results to the user's browser.</li>
+            <li><strong>JavaScript:</strong>  JavaScript is used for front-end interactivity.  This includes things like the dynamic sidebar behavior, animations, and handling user input in the browser. It's the bridge from the Python backend to what the user interacts with!</li>
+            <li><strong>HTML/CSS:</strong>  The structure and styling of the web pages are defined using HTML and CSS.  Bootstrap (a CSS framework) is used for responsive design and pre-built components for efficient and modern integration.</li>
+         </ul>
+         </p>
+         <h2 class="docs-section-title">Large Language Models</h2>
+         <table class="docs-table">
+            <thead>
+               <tr>
+                  <th class="docs-table-header">Model Name</th>
+                  <th class="docs-table-header">Parameters</th>
+                  <th class="docs-table-header">Type</th>
+                  <th class="docs-table-header">URL</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr>
+                  <td class="docs-table-cell">google/flan-t5-small</td>
+                  <td class="docs-table-cell">80M</td>
+                  <td class="docs-table-cell">seq2seq</td>
+                  <td class="docs-table-cell"><a href="https://huggingface.co/google/flan-t5-small" target="_blank">https://huggingface.co/google/flan-t5-small</a></td>
+               </tr>
+               <tr>
+                  <td class="docs-table-cell">google/flan-t5-base</td>
+                  <td class="docs-table-cell">250M</td>
+                  <td class="docs-table-cell">seq2seq</td>
+                  <td class="docs-table-cell"><a href="https://huggingface.co/google/flan-t5-base" target="_blank">https://huggingface.co/google/flan-t5-base</a></td>
+               </tr>
+               <tr>
+                  <td class="docs-table-cell">google/flan-t5-large</td>
+                  <td class="docs-table-cell">780M</td>
+                  <td class="docs-table-cell">seq2seq</td>
+                  <td class="docs-table-cell"><a href="https://huggingface.co/google/flan-t5-large" target="_blank">https://huggingface.co/google/flan-t5-large</a></td>
+               </tr>
+               <tr>
+                  <td class="docs-table-cell">sshleifer/distilbart-cnn-12-6</td>
+                  <td class="docs-table-cell">306M</td>
+                  <td class="docs-table-cell">seq2seq</td>
+                  <td class="docs-table-cell"><a href="https://huggingface.co/sshleifer/distilbart-cnn-12-6" target="_blank">https://huggingface.co/sshleifer/distilbart-cnn-12-6</a></td>
+               </tr>
+               <tr>
+                  <td class="docs-table-cell">facebook/bart-large-cnn</td>
+                  <td class="docs-table-cell">406M</td>
+                  <td class="docs-table-cell">seq2seq</td>
+                  <td class="docs-table-cell"><a href="https://huggingface.co/facebook/bart-large-cnn" target="_blank">https://huggingface.co/facebook/bart-large-cnn</a></td>
+               </tr>
+               <tr>
+                  <td class="docs-table-cell">lidiya/bart-large-xsum-samsum</td>
+                  <td class="docs-table-cell">406M</td>
+                  <td class="docs-table-cell">seq2seq</td>
+                  <td class="docs-table-cell"><a href="https://huggingface.co/lidiya/bart-large-xsum-samsum" target="_blank">https://huggingface.co/lidiya/bart-large-xsum-samsum</a></td>
+               </tr>
+               <tr>
+                  <td class="docs-table-cell">google/flan-t5-xl</td>
+                  <td class="docs-table-cell">3B</td>
+                  <td class="docs-table-cell">seq2seq</td>
+                  <td class="docs-table-cell"><a href="https://huggingface.co/google/flan-t5-xl" target="_blank">https://huggingface.co/google/flan-t5-xl</a></td>
+               </tr>
+               <tr>
+                  <td class="docs-table-cell">google/flan-t5-xxl</td>
+                  <td class="docs-table-cell">11B</td>
+                  <td class="docs-table-cell">seq2seq</td>
+                  <td class="docs-table-cell"><a href="https://huggingface.co/google/flan-t5-xxl" target="_blank">https://huggingface.co/google/flan-t5-xxl</a></td>
+               </tr>
+               <tr>
+                  <td class="docs-table-cell">deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B</td>
+                  <td class="docs-table-cell">1.5B</td>
+                  <td class="docs-table-cell">causal</td>
+                  <td class="docs-table-cell"><a href="https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B" target="_blank">https://huggingface.co/deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B</a></td>
+               </tr>
+               <tr>
+                  <td class="docs-table-cell">Qwen/Qwen2.5-14B</td>
+                  <td class="docs-table-cell">7B</td>
+                  <td class="docs-table-cell">causal</td>
+                  <td class="docs-table-cell"><a href="https://huggingface.co/Qwen/Qwen1.5-14B" target="_blank">https://huggingface.co/Qwen/Qwen1.5-14B</a></td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <div>
+      <script>
+         const sidebar = document.getElementById('sidebar-container').querySelector('.sideBar');
+         const mainContainer = document.getElementById('main-container');
+         
+         const closedMargin = '80px';  // Define margins as constants
+         const openMargin = '270px';
+         
+         sidebar.addEventListener('mouseover', () => {
+             sidebar.classList.add('open');
+             mainContainer.style.marginLeft = openMargin; // Set margin directly
+         });
+         
+         sidebar.addEventListener('mouseout', () => {
+             sidebar.classList.remove('open');
+             mainContainer.style.marginLeft = closedMargin; // Set margin directly
+         });
+         
+         // --- Animation code below ---
+         
+         const elementsToAnimate = document.querySelectorAll('#docs-content *'); // Select all elements inside docs-content
+         
+         function checkSlide() {
+             elementsToAnimate.forEach(element => {
+                 const slideInAt = (window.scrollY + window.innerHeight) - element.offsetHeight / 2;
+                 const elementBottom = element.offsetTop + element.offsetHeight;
+                 const isHalfShown = slideInAt > element.offsetTop;
+                 const isNotScrolledPast = window.scrollY < elementBottom;
+         
+                 if (isHalfShown && isNotScrolledPast) {
+                     element.classList.add('animate-in');
+                 }
+             });
+         }
+         
+         window.addEventListener('scroll', checkSlide);
+         // Initial check on page load in case some elements are already in view
+         checkSlide();
+      </script>
+   </body>
+</html>
